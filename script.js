@@ -95,8 +95,9 @@ function updateScreen(msg) {
     setTimeout(() => { document.getElementById("log").innerText = ""; }, 1500);
   }
   // 테마 적용
-  document.body.style.background = theme === 0 ? '#f7f7e7' : '#333';
+  document.body.style.background = theme === 0 ? '#fff' : '#333';
   document.body.style.color = theme === 0 ? '#000' : '#fff';
+
 }
 
 function showPopup(msg) {
