@@ -75,30 +75,23 @@ button:hover {
   background-color: #d32f2f;
 }
 
-/* 1. 어두운 테마 전체 스타일 */
+/* 어두운 테마 전체 글씨색만 밝게 */
 body.dark-theme {
-  background-color: #222222;
+  background: #222;
   color: #fff;
 }
 
-/* 2. 모달/팝업(랭킹 등)은 항상 하얀 배경 + 검정 글씨 */
+/* 팝업(모달)은 항상 하얀 배경 + 검정 글씨 */
 .modal, .popup {
   background: #fff;
-  color: #222;
+  color: #000 !important;   /* 항상 검정 글씨 */
 }
 
-/* 3. 어두운 테마에서도 모달/팝업은 하얀 배경(글씨색은 건드리지 않음) */
+/* 어두운 테마에서도 팝업(모달)은 항상 하얀 배경 + 검정 글씨 */
 body.dark-theme .modal,
 body.dark-theme .popup {
-  background: #fff
-}
-
-/* 4. 어두운 테마에서 모달/팝업 안의 버튼 스타일 */
-body.dark-theme .modal button,
-body.dark-theme .popup button {
-  background: #ffffff;  /* 흰색 배경 */
-  color: #222;          /* 글씨는 검정색 유지 */
-  border: 1px solid #ccc; /* 선택사항: 버튼 경계선 추가해서 구분감 줌 */
+  background: #fff !important;
+  color: #000 !important;   /* 항상 검정 글씨 */
 }
 body.dark-theme .modal button:hover,
 body.dark-theme .popup button:hover {
