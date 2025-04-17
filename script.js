@@ -96,7 +96,6 @@ function updateScreen(msg) {
   }
   // 테마 적용
   document.body.style.background = theme === 0 ? '#fff' : '#333';
-  document.body.style.color = theme === 0 ? '#000' : '#fff';
 
 }
 
