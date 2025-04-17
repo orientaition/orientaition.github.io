@@ -8,6 +8,7 @@ let helperCost = 10000;
 let helperIncomeBase = 1000; // 알바생 1명당 기본 초당 수익
 let house = 0;
 let houseCost = 500000;
+let houseIncomeBase = 50000; // 부동산 1채당 기본 초당 수익
 let prestige = 0;
 let stars = 0;
 let clickCount = 0;
@@ -46,7 +47,7 @@ function saveGame() {
   const save = {
     money, begLevel, begAmount, begUpgradeCost, helper, helperCost, house, houseCost,
     prestige, stars, clickCount, theme, bgmOn, clickSoundOn, helperIncomeBase,
-    achievements: achievements.map(a=>a.achieved),
+    achievements: achievements.map(a=>a.achieved), houseIncomeBase,
     missions: missions.map(m=>m.done), randomBoxCooldown,
     missionProgress, allMissionsDone, prestigeBonus, prestigeCostBase, prestigeCostIncrement,
     research, buff, localRanking
@@ -65,6 +66,7 @@ function loadGame() {
   if (save.missions) save.missions.forEach((done, i) => missions[i].done = done);
   missionProgress = save.missionProgress || missionProgress;
   helperIncomeBase = save.helperIncomeBase || 1000;
+  houseIncomeBase = save.houseIncomeBase || 50000;
   randomBoxCooldown = save.randomBoxCooldown || 0;
   allMissionsDone = save.allMissionsDone || false;
   prestigeBonus = save.prestigeBonus || 0;
@@ -159,6 +161,7 @@ function buyHouse() {
     money -= houseCost;
     house += 1;
     houseCost = Math.floor(houseCost * 1.9);
+    houseIncomeBase = Math.floor(houseIncomeBase * 1.5); // 1.5배 증가!
     updateScreen("부동산을 구매했습니다!");
     checkAchievements();
     saveGame();
@@ -167,10 +170,11 @@ function buyHouse() {
   }
 }
 
+
 // =================== 자동 수익 =====================
 function getSecIncome() {
   let helperIncome = Math.floor(helper * helperIncomeBase * (1 + research.helperBoost/100));
-  let houseIncome = Math.floor(house * 1000 * (1 + research.houseBoost/100));
+  let houseIncome = Math.floor(house * houseIncomeBase * (1 + research.houseBoost/100));
   return Math.floor((helperIncome + houseIncome) * (1 + prestigeBonus/100) * buff.auto);
 }
 
