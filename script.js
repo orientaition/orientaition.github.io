@@ -140,7 +140,7 @@ function upgradeBeg() {
   if (money >= begUpgradeCost) {
     money -= begUpgradeCost;
     begLevel += 1;
-    begAmount = Math.ceil(begAmount * 1.5);
+    begAmount = Math.ceil(begAmount * 1.7);
     begUpgradeCost = Math.floor(begUpgradeCost * 1.8);
     updateScreen("구걸 레벨이 올랐습니다!");
     checkAchievements();
