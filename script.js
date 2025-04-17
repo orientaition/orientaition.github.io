@@ -366,6 +366,7 @@ function updateRanking() {
 
 // =================== 테마 변경 =====================
 function toggleTheme() {
+  document.body.classList.toggle('dark-theme');
   theme = 1 - theme;
   updateScreen();
   saveGame();
