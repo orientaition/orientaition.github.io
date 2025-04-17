@@ -72,6 +72,7 @@ button:hover {
 .character-row {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
   gap: 40px;
   margin-bottom: 20px;
 }
@@ -84,6 +85,7 @@ button:hover {
   margin-top: 8px;
   font-weight: 600;
 }
+
 
 
 /* 팝업/모달 기본 스타일 */
