@@ -5,6 +5,7 @@ let begAmount = 1;
 let begUpgradeCost = 10;
 let helper = 0;
 let helperCost = 10000;
+let helperIncomeBase = 1000; // 알바생 1명당 기본 초당 수익
 let house = 0;
 let houseCost = 500000;
 let prestige = 0;
@@ -44,7 +45,7 @@ function formatNumber(num) {
 function saveGame() {
   const save = {
     money, begLevel, begAmount, begUpgradeCost, helper, helperCost, house, houseCost,
-    prestige, stars, clickCount, theme, bgmOn, clickSoundOn,
+    prestige, stars, clickCount, theme, bgmOn, clickSoundOn, helperIncomeBase,
     achievements: achievements.map(a=>a.achieved),
     missions: missions.map(m=>m.done), randomBoxCooldown,
     missionProgress, allMissionsDone, prestigeBonus, prestigeCostBase, prestigeCostIncrement,
@@ -63,6 +64,7 @@ function loadGame() {
   if (save.achievements) save.achievements.forEach((ach, i) => achievements[i].achieved = ach);
   if (save.missions) save.missions.forEach((done, i) => missions[i].done = done);
   missionProgress = save.missionProgress || missionProgress;
+  helperIncomeBase = save.helperIncomeBase || 1000;
   randomBoxCooldown = save.randomBoxCooldown || 0;
   allMissionsDone = save.allMissionsDone || false;
   prestigeBonus = save.prestigeBonus || 0;
@@ -143,6 +145,7 @@ function buyHelper() {
     money -= helperCost;
     helper += 1;
     helperCost = Math.floor(helperCost * 1.8);
+    helperIncomeBase = Math.floor(helperIncomeBase * 1.5); // 1.5배 증가!
     updateScreen("알바생을 고용했습니다!");
     checkAchievements();
     saveGame();
@@ -150,6 +153,7 @@ function buyHelper() {
     updateScreen("돈이 부족합니다!");
   }
 }
+
 function buyHouse() {
   if (money >= houseCost) {
     money -= houseCost;
@@ -165,10 +169,11 @@ function buyHouse() {
 
 // =================== 자동 수익 =====================
 function getSecIncome() {
-  let helperIncome = Math.floor(helper * 100 * (1 + research.helperBoost/100));
+  let helperIncome = Math.floor(helper * helperIncomeBase * (1 + research.helperBoost/100));
   let houseIncome = Math.floor(house * 1000 * (1 + research.houseBoost/100));
   return Math.floor((helperIncome + houseIncome) * (1 + prestigeBonus/100) * buff.auto);
 }
+
 function autoIncome() {
   money += getSecIncome();
   updateScreen();
