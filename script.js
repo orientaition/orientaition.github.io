@@ -23,7 +23,7 @@ let achievements = [
   { id: 'click100', name: '클릭 마스터', desc: '클릭 100회', check: () => clickCount >= 100, reward: 1, achieved: false },
 ];
 let missions = [
-  { id: 'daily_click', name: '오늘의 클릭', desc: '클릭 50회', check: () => clickCount - missionProgress.daily_click >= 50, reward: 5000, done: false },
+  { id: 'daily_click', name: '오늘의 클릭', desc: '클릭 100회', check: () => clickCount - missionProgress.daily_click >= 50, reward: 5000, done: false },
   { id: 'daily_helper', name: '알바생 고용', desc: '알바생 2명 고용', check: () => helper - missionProgress.daily_helper >= 2, reward: 10000, done: false },
   { id: 'daily_house', name: '부동산 구매', desc: '부동산 1채 구매', check: () => house - missionProgress.daily_house >= 1, reward: 20000, done: false },
 ];
@@ -46,12 +46,13 @@ function saveGame() {
     money, begLevel, begAmount, begUpgradeCost, helper, helperCost, house, houseCost,
     prestige, stars, clickCount, theme, bgmOn, clickSoundOn,
     achievements: achievements.map(a=>a.achieved),
-    missions: missions.map(m=>m.done),
+    missions: missions.map(m=>m.done), randomBoxCooldown,
     missionProgress, allMissionsDone, prestigeBonus, prestigeCostBase, prestigeCostIncrement,
     research, buff, localRanking
   };
   localStorage.setItem('idle_save', JSON.stringify(save));
 }
+
 function loadGame() {
   const save = JSON.parse(localStorage.getItem('idle_save'));
   if (!save) return;
@@ -62,6 +63,7 @@ function loadGame() {
   if (save.achievements) save.achievements.forEach((ach, i) => achievements[i].achieved = ach);
   if (save.missions) save.missions.forEach((done, i) => missions[i].done = done);
   missionProgress = save.missionProgress || missionProgress;
+  randomBoxCooldown = save.randomBoxCooldown || 0;
   allMissionsDone = save.allMissionsDone || false;
   prestigeBonus = save.prestigeBonus || 0;
   prestigeCostBase = save.prestigeCostBase ?? 100000000;
@@ -280,21 +282,24 @@ function buyResearch(type) {
 }
 
 // =================== 이벤트/랜덤박스 =====================
+// 랜덤박스 쿨타임(초)
+let randomBoxCooldown = 0; // 0이면 즉시 사용 가능
+
 function showEvent() {
-  if (eventActive) {
-    showPopup("이미 이벤트가 진행 중입니다.");
-    return;
+  let html = `<b>무료 랜덤박스</b><br>`;
+  if (randomBoxCooldown > 0) {
+    html += `<div>다음 랜덤박스까지: <span id="randombox-timer">${formatTime(randomBoxCooldown)}</span></div>`;
+    html += `<button disabled>랜덤박스 열기</button>`;
+  } else {
+    html += `<button onclick="doEvent()">랜덤박스 열기</button>`;
   }
-  let html = `<b>랜덤 박스 이벤트!</b><br>랜덤으로 돈 또는 버프를 얻을 수 있습니다. (1회 5,000원)<br><button onclick="doEvent()" ${money >= 5000 ? '' : 'disabled'}>참여하기</button><br><button onclick="closeModal('event-modal')">닫기</button>`;
+  html += `<br><button onclick="closeModal('event-modal')">닫기</button>`;
   showModal('event-modal', html);
 }
+
+// 랜덤박스 열기
 function doEvent() {
-  if (eventActive) return;
-  if (money < 5000) {
-    showPopup("돈이 부족합니다.");
-    return;
-  }
-  money -= 5000;
+  if (randomBoxCooldown > 0) return;
   eventActive = true;
   const rand = Math.random();
   if (rand < 0.5) {
@@ -313,19 +318,27 @@ function doEvent() {
   saveGame();
   updateScreen();
   closeModal('event-modal');
+  randomBoxCooldown = 1800; // 30분(1800초)
   setTimeout(() => { eventActive = false; }, 1000);
 }
-function buffTimeTick() {
-  if (buff.remain > 0) {
-    buff.remain -= 1;
-    if (buff.remain === 0) {
-      buff.click = 1;
-      buff.auto = 1;
-      updateScreen("버프 효과가 사라졌습니다!");
-    }
+
+// 쿨타임 타이머 및 화면 갱신
+setInterval(() => {
+  if (randomBoxCooldown > 0) {
+    randomBoxCooldown--;
+    // 이벤트 모달이 열려 있으면 타이머 갱신
+    const timerElem = document.getElementById('randombox-timer');
+    if (timerElem) timerElem.innerText = formatTime(randomBoxCooldown);
+    saveGame();
   }
+}, 1000);
+
+// 시간 포맷 함수 (mm:ss)
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
-setInterval(buffTimeTick, 1000);
 
 // =================== 랭킹 =====================
 function showRanking() {
