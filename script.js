@@ -140,8 +140,8 @@ function upgradeBeg() {
   if (money >= begUpgradeCost) {
     money -= begUpgradeCost;
     begLevel += 1;
-    begAmount = Math.ceil(begAmount * 1.017);
-    begUpgradeCost = Math.floor(begUpgradeCost * 1.018);
+    begAmount = Math.ceil(begAmount * 0.17);
+    begUpgradeCost = Math.floor(begUpgradeCost * 0.18);
     updateScreen("구걸 레벨이 올랐습니다!");
     checkAchievements();
     saveGame();
@@ -153,8 +153,8 @@ function buyHelper() {
   if (money >= helperCost) {
     money -= helperCost;
     helper += 1;
-    helperCost = Math.floor(helperCost * 1.018);
-    helperIncomeBase = Math.floor(helperIncomeBase * 1.015); // 1.5배 증가!
+    helperCost = Math.floor(helperCost * 0.16);
+    helperIncomeBase = Math.floor(helperIncomeBase * 0.19); // 1.5배 증가!
     updateScreen("알바생을 고용했습니다!");
     checkAchievements();
     saveGame();
