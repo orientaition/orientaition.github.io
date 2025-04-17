@@ -399,6 +399,44 @@ function toggleBgm() {
   saveGame();
 }
 
+// ================== 리셋 =================
+function resetGame() {
+  if (!confirm("정말로 모든 데이터를 초기화하고 처음부터 시작하시겠습니까?")) return;
+  localStorage.removeItem('idle_save');
+  // 모든 변수 초기화
+  money = 0;
+  begLevel = 1;
+  begAmount = 1;
+  begUpgradeCost = 10;
+  helper = 0;
+  helperCost = 10000;
+  helperIncomeBase = 1000;
+  house = 0;
+  houseCost = 500000;
+  houseIncomeBase = 50000;
+  prestige = 0;
+  stars = 0;
+  clickCount = 0;
+  theme = 0;
+  bgmOn = true;
+  clickSoundOn = true;
+  achievements.forEach(a => a.achieved = false);
+  missions.forEach(m => m.done = false);
+  missionProgress = { daily_click: 0, daily_helper: 0, daily_house: 0, lastDate: "" };
+  allMissionsDone = false;
+  prestigeBonus = 0;
+  prestigeCostBase = 100000000;
+  prestigeCostIncrement = 10000000;
+  research = { helperBoost: 0, houseBoost: 0 };
+  buff = { click: 1, auto: 1, remain: 0 };
+  eventActive = false;
+  localRanking = { maxMoney: 0, maxClick: 0, maxPrestige: 0 };
+  randomBoxCooldown = 0;
+  updateScreen("게임이 완전히 초기화되었습니다!");
+  saveGame();
+}
+
+
 // =================== 모달 생성 =====================
 function showModal(id, html) {
   let modal = document.getElementById(id);
