@@ -186,6 +186,7 @@ function checkAchievements() {
   });
 }
 function showAchievements() {
+  alert("업적 창이 뜹니다!");
   let html = `<b>업적 목록</b><div class="achievements-list">`;
   achievements.forEach(a => {
     html += `<div style="margin:5px 0;${a.achieved ? 'color:gold;' : ''}">${a.name} - ${a.desc} ${a.achieved ? '⭐' : ''}</div>`;
