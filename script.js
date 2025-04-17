@@ -95,7 +95,14 @@ function updateScreen(msg) {
     setTimeout(() => { document.getElementById("log").innerText = ""; }, 1500);
   }
   // 테마 적용
-  document.body.style.background = theme === 0 ? '#fff' : '#333';
+  if (theme === 0) {
+  document.body.classList.remove('dark-theme');
+  document.body.style.background = '#fff';
+} else {
+  document.body.classList.add('dark-theme');
+  document.body.style.background = '#333';
+}
+
 
 }
 
