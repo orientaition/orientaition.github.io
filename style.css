@@ -80,18 +80,14 @@ body.dark-theme {
   background: #222;
   color: #fff;
 }
-
-/* 팝업(모달)은 항상 하얀 배경 + 검정 글씨 */
 .modal, .popup {
   background: #fff;
-  color: #000 !important;   /* 항상 검정 글씨 */
+  color: #000 !important; /* 팝업만 검정 글씨 */
 }
-
-/* 어두운 테마에서도 팝업(모달)은 항상 하얀 배경 + 검정 글씨 */
 body.dark-theme .modal,
 body.dark-theme .popup {
   background: #fff !important;
-  color: #000 !important;   /* 항상 검정 글씨 */
+  color: #000 !important; /* 어두운 테마에서도 팝업만 검정 글씨 */
 }
 body.dark-theme .modal button:hover,
 body.dark-theme .popup button:hover {
