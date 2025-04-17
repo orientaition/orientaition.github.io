@@ -8,12 +8,37 @@ body {
 }
 .button-list {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   max-width: 600px;
   margin: 20px auto;
 }
+.single-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.single-button button {
+  min-width: 220px;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.pair-button {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.pair-button button {
+  flex: 1 1 0;
+  min-width: 180px;
+}
+
+
 button {
   padding: 12px 20px;
   font-size: 1em;
