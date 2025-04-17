@@ -74,28 +74,33 @@ button:hover {
   background-color: #d32f2f;
 }
 
-/* 기본(밝은 테마) */
-.modal, .popup {
-  background: white;
-  color: #222;
-}
-
-/* 어두운 테마 */
-body.dark-theme .modal,
-body.dark-theme .popup {
+body.dark-theme {
   background: #222;
   color: #fff;
 }
 
+.modal, .popup {
+  background: #fff;
+  color: #222;
+}
+
+body.dark-theme .modal,
+body.dark-theme .popup {
+  background: #fff !important;
+  color: #222 !important;
+}
+
 body.dark-theme .modal button,
 body.dark-theme .popup button {
-  background: #444;
-  color: #ffe066;
+  background: #ffe066;
+  color: #222;
 }
 body.dark-theme .modal button:hover,
 body.dark-theme .popup button:hover {
-  background: #666;
+  background: #ffd600;
 }
+
+
 
 
 
