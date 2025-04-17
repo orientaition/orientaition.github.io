@@ -4,58 +4,129 @@
   <meta charset="UTF-8" />
   <title>거지키우기 미니게임</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 기본 스타일 */
+    body {
+      font-family: 'Malgun Gothic', sans-serif;
+      background: #f7f7e7;
+      color: #000;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .button-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      background-color: #ffe066;
+      color: #7c5c00;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #ffd600;
+    }
+    #money {
+      font-size: 2em;
+      margin: 20px 0;
+      font-weight: 700;
+      color: #c9a227;
+    }
+    .info-group span {
+      margin: 0 10px;
+      font-weight: 600;
+    }
+    #log {
+      margin-top: 15px;
+      height: 24px;
+      font-weight: 700;
+      color: #d9534f;
+    }
+    /* 팝업/모달 기본 스타일 */
+    .popup, .modal {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: none;
+      max-width: 90%;
+      max-height: 80%;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    .popup button, .modal button {
+      margin-top: 15px;
+      padding: 8px 15px;
+      font-weight: 600;
+      background-color: #f0ad4e;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .popup button:hover, .modal button:hover {
+      background-color: #ec971f;
+    }
+  </style>
 </head>
 <body>
   <h1>거지키우기 미니게임</h1>
-  <div class="img-row">
-    <!-- SVG 캐릭터들 (생략 가능) -->
-    <div class="img-col">
-      <div id="beggar">
-        <svg width="80" height="80" viewBox="0 0 80 80">
-          <ellipse cx="40" cy="50" rx="22" ry="18" fill="#bca37f" />
-          <circle cx="40" cy="37" r="18" fill="#f3d6b6" stroke="#9c7a4f" stroke-width="2"/>
-          <ellipse cx="40" cy="60" rx="10" ry="4" fill="#a67c52" />
-          <ellipse cx="34" cy="35" rx="2" ry="2.5" fill="#333" />
-          <ellipse cx="46" cy="35" rx="2" ry="2.5" fill="#333" />
-          <path d="M36 43 Q40 47 44 43" stroke="#a67c52" stroke-width="2" fill="none"/>
-          <rect x="30" y="65" width="20" height="8" rx="3" fill="#8d6747" />
-          <rect x="36" y="68" width="8" height="4" rx="2" fill="#e8cfa1" />
-        </svg>
-        <div id="coin-container"></div>
-      </div>
-      <div class="label">구걸 캐릭터</div>
-    </div>
-    <!-- ...다른 캐릭터 SVG ... -->
-  </div>
+
   <div id="money">💰 0 원</div>
+
   <div class="info-group" id="top-info">
-    <span class="info-item">구걸 레벨: <strong id="beg-level">1</strong></span>
-    <span class="info-item">알바생: <strong id="helper-count">0</strong>명</span>
-    <span class="info-item">부동산: <strong id="estate-count">0</strong>채</span>
-    <span class="info-item">환생: <strong id="prestige-count">0</strong>회</span>
-    <span class="info-item">별: <strong id="star-count">0</strong></span>
+    <span>구걸 레벨: <strong id="beg-level">1</strong></span>
+    <span>알바생: <strong id="helper-count">0</strong>명</span>
+    <span>부동산: <strong id="estate-count">0</strong>채</span>
+    <span>환생: <strong id="prestige-count">0</strong>회</span>
+    <span>별: <strong id="star-count">0</strong></span>
   </div>
-  <div class="vertical-info-group" id="bottom-info">
-    <span class="info-item">클릭당 수익: <strong id="beg-amount-info">1</strong>원</span>
-    <span class="info-item">초당 수익: <strong id="sec-income-info">0</strong>원</span>
+
+  <div class="info-group" id="bottom-info" style="margin-top:10px;">
+    <span>클릭당 수익: <strong id="beg-amount-info">1</strong>원</span>
+    <span>초당 수익: <strong id="sec-income-info">0</strong>원</span>
   </div>
+
   <div class="button-list">
-    <div class="single-button">
-      <button onclick="earnMoney()">구걸하기</button>
-    </div>
-    <div class="pair-button">
-      <button onclick="upgradeBeg()">구걸 업그레이드 (<span id="beg-upgrade-cost">10</span>원)</button>
-    </div>
-    <div class="pair-button">
-      <button onclick="buyHelper()">알바생 고용 (<span id="helper-cost">10,000</span>원)</button>
-    </div>
-    <div class="pair-button">
-      <button onclick="buyHouse()">부동산 구매 (<span id="house-cost">500,000</span>원)</button>
-    </div>
-    <!-- 필요하다면 추가 버튼 ... -->
+    <button onclick="earnMoney()">구걸하기</button>
+    <button onclick="upgradeBeg()">구걸 업그레이드 (<span id="beg-upgrade-cost">10</span>원)</button>
+    <button onclick="buyHelper()">알바생 고용 (<span id="helper-cost">10,000</span>원)</button>
+    <button onclick="buyHouse()">부동산 구매 (<span id="house-cost">500,000</span>원)</button>
+    <button onclick="showAchievements()">업적</button>
+    <button onclick="showMissions()">미션</button>
+    <button onclick="showPrestige()">환생(프레스티지)</button>
+    <button onclick="showResearch()">연구소</button>
+    <button onclick="showEvent()">이벤트/랜덤박스</button>
+    <button onclick="showRanking()">랭킹</button>
+    <button onclick="toggleTheme()">테마 변경</button>
+    <button onclick="toggleBgm()">배경음악 ON/OFF</button>
   </div>
+
   <div id="log"></div>
+
+  <!-- 팝업/모달 영역 (스크립트에서 자동 생성 가능) -->
+  <div id="achievement-popup" class="popup"></div>
+  <div id="achievements-modal" class="modal"></div>
+  <div id="missions-modal" class="modal"></div>
+  <div id="prestige-modal" class="modal"></div>
+  <div id="research-modal" class="modal"></div>
+  <div id="event-modal" class="modal"></div>
+  <div id="ranking-modal" class="modal"></div>
+
+  <!-- 배경음악, 효과음 (스크립트에서 자동 생성 가능) -->
+  
+  <!-- 스크립트 불러오기 -->
   <script src="script.js"></script>
 </body>
 </html>
