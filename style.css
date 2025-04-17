@@ -1,0 +1,101 @@
+body {
+  font-family: 'Malgun Gothic', sans-serif;
+  background: #f7f7e7;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+#money {
+  font-size: 2em;
+  margin: 20px 0;
+  font-weight: 700;
+  color: #c9a227;
+  letter-spacing: 1px;
+  word-break: keep-all;
+}
+.info-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+  font-size: 1.08em;
+  color: #a77c00;
+  font-weight: 700;
+}
+.vertical-info-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 12px;
+  font-size: 1.04em;
+  color: #a77c00;
+  font-weight: 700;
+}
+.button-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px auto 0 auto;
+  max-width: 440px;
+}
+.button-list .single-button {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.button-list .pair-button {
+  width: calc(50% - 7.5px);
+}
+button {
+  width: 100%;
+  font-size: 1.15em;
+  padding: 12px 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffe066;
+  color: #7c5c00;
+  font-weight: 600;
+  transition: background-color 0.2s, font-size 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+button:active {
+  font-size: 1.08em;
+}
+button:hover {
+  background-color: #ffd600;
+}
+.img-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px 0 10px 0;
+  flex-wrap: wrap;
+}
+.img-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.label {
+  margin-top: 8px;
+  font-size: 1em;
+  color: #444;
+  font-weight: 600;
+}
+#log {
+  color: #888;
+  font-size: 0.9em;
+  margin-top: 30px;
+  min-height: 1.2em;
+  word-break: keep-all;
+}
+#beggar {
+  transition: transform
