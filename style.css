@@ -96,12 +96,13 @@ body.dark-theme .popup {
 /* 4. 어두운 테마에서 모달/팝업 안의 버튼 스타일 */
 body.dark-theme .modal button,
 body.dark-theme .popup button {
-  background: #ffe066;
-  color: #222;
+  background: #ffffff;  /* 흰색 배경 */
+  color: #222;          /* 글씨는 검정색 유지 */
+  border: 1px solid #ccc; /* 선택사항: 버튼 경계선 추가해서 구분감 줌 */
 }
 body.dark-theme .modal button:hover,
 body.dark-theme .popup button:hover {
-  background: #ffd600;
+  background: #f0f0f0;  /* 살짝 밝은 회색으로 호버 효과 */
 }
 
 #money {
